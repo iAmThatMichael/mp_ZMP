@@ -1,0 +1,30 @@
+/* CLASSES */
+Hunter		- SMG | AR
+Overwatch	- SNIPER | AR
+Reaper		- AR
+Juggernaut	- LMG
+CQB		- SHOTGUN | SMG
+Butcher		- MELEE
+Marksman	- AR
+Donator		- AR
+MVP		- AR
+Developer	- AR | SHOTGUN *** Only available for ZMP developers.
+
+/* SHOPS */
+--
+HUMAN
+--
+1) Generic Weapons
+	<>
+2) Pack-a-Punch Weapons
+	<>
+3) Special Weapons *** Donator+
+	<>
+4) Refill Ammunition [Cost: 500]	(Effect Max Ammo)
+--
+ZOMBIE
+--
+1) Increased Health 	[Cost: 100 x8] (Effect +50 HP)
+2) Increased Speed 	[Cost: 200 x5] 	(Effect +1.05x speed)
+3) Meat Chunk		[Cost: 250 x**]	(Effect Throwing Knife x1)
+4) Better Melee		[Cost: 300]	(Effect T6 Knife on Spawn)

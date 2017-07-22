@@ -1,0 +1,168 @@
+#include "ui/menudef.h"
+#include "ui_mp/common_macro.inc"
+#include "ui_mp/stats_info.inc"
+#include "ui/framestyle.inc"
+#include "ui_mp/newframe.inc"
+
+
+#undef  CHOICE_X_START
+#define CHOICE_X_START				30
+#undef  CHOICE_Y_START
+#define CHOICE_Y_START				-105
+
+#define	PC_INGAME //for background in overlaybg.inc
+
+#define CHOICE_SEP_OFFSET_Y			-2
+#define CHOICE_SEP_1				5
+
+#include "ui_mp/menustyle.inc"
+#include "ui/choices_setup_common.menu"
+#include "ui_mp/overlaybg.inc"
+
+#define HIGH_BOUND					"1000"
+
+#undef	BUTTON_BG_X_START
+#define BUTTON_BG_X_START			30
+#undef	BUTTON_BG_Y_START
+#define	BUTTON_BG_Y_START			42
+
+#undef	CHOICE_TEXTSTYLE
+#define	CHOICE_TEXTSTYLE			ITEM_TEXTSTYLE_NORMAL
+
+#undef	CHOICE_SIZE_X
+#define CHOICE_SIZE_X				200
+
+#undef	CHOICE_HORIZONTAL_ALIGN
+#define CHOICE_HORIZONTAL_ALIGN		HORIZONTAL_ALIGN_LEFT
+
+#undef	CHOICE_VERTICAL_ALIGN
+#define CHOICE_VERTICAL_ALIGN		VERTICAL_ALIGN_CENTER
+
+// ------
+
+#undef ON_ESC
+#define ON_ESC		scriptMenuResponse "back";	
+
+{
+	menuDef
+	{
+		name			"zmp_menu_class"
+		rect			0 0 640 480 HORIZONTAL_ALIGN_FULLSCREEN VERTICAL_ALIGN_FULLSCREEN
+		focuscolor		COLOR_FOCUSED
+		style			WINDOW_STYLE_EMPTY
+		onOpen
+		{
+			// update player's XP
+			execNow "statGetByNameInDvar RANKXP ui_stat_rankxp";
+			
+			if ( dvarString( ui_custom_name ) == "" )
+			{
+				execnow set ui_custom_name customclass1;
+			}
+			
+			if( dvarString( ui_class ) == "" )
+			{
+				execnow set ui_class class_smg; 
+			}
+			
+			setfocusbydvar "ui_customclass_selected";
+			
+			if (IsInGame())
+			{
+				showMenu "pausedbkgnd";
+			}		
+			
+			setLocalVarBool ui_hide_cac_item_info_highlights 1;
+		}
+		onClose
+		{
+			if (IsInGame())
+			{
+				hideMenu "pausedbkgnd";
+			}
+			setLocalVarBool ui_hide_cac_item_info_highlights 0;
+		}
+		onEsc 
+		{
+		}
+
+		// ------------------ TREE TITLE ------------------
+		
+		CHOICE_MENU_TITLE_ALIGN_VIS( "@MPUI_CHOOSE_CLASS_CAPS",  HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP, ITEM_ALIGN_MIDDLE_LEFT, 1 )
+		
+		//=========================================================================
+		//================ MENU SELECTION FOR ONLINE/OFFLINE GAME =================
+		//=========================================================================
+		#define IS_DEVELOPER					( tableLookUp( "mp/zmpUserIDs.csv", 2, GetXUID(), 3 )  == 3 )
+		#define IS_MVP								( tableLookUp( "mp/zmpUserIDs.csv", 2, GetXUID(), 3 )  >= 2 )
+		#define IS_DONATOR						( tableLookUp( "mp/zmpUserIDs.csv", 2, GetXUID(), 3 )  >= 1 )
+		#define IS_ONLINE_GAME				( dvarInt( splitscreen ) == 0 && dvarInt( systemlink ) == 0 )
+		#define IS_BASICTRAINING_GAME	( dvarInt( xblive_basictraining ) > 0 )
+
+		#define FOCUS_CHECK( pnum ) \
+				dvartest "ui_customclass_selected" focusdvar { pnum }
+				
+		FRAME_CHOICE_BUTTON_FOCUS_VIS_EX(	1, "@MOD_CLASS_HUNTER", 
+											scriptMenuResponse "hunter";, 
+											;, 
+											;, 
+											IS_ONLINE_GAME, FOCUS_CHECK( 6 ) )	
+																
+		FRAME_CHOICE_BUTTON_FOCUS_VIS_EX(	2, "@MOD_CLASS_OVERWATCH", 
+											scriptMenuResponse "overwatch";, 
+											;,
+											;, 
+											IS_ONLINE_GAME, FOCUS_CHECK( 7 ) )	
+											
+		FRAME_CHOICE_BUTTON_FOCUS_VIS_EX(	3, "@MOD_CLASS_REAPER", 
+											scriptMenuResponse "reaper";, 
+											;,
+											;, 
+											IS_ONLINE_GAME, FOCUS_CHECK( 8 ) )	
+											
+		FRAME_CHOICE_BUTTON_FOCUS_VIS_EX(	4, "@MOD_CLASS_JUGGERNAUT", 
+											scriptMenuResponse "juggernaut";, 
+											;,
+											;, 
+											IS_ONLINE_GAME, FOCUS_CHECK( 9 ) )	
+											
+		FRAME_CHOICE_BUTTON_FOCUS_VIS_EX(	5, "@MOD_CLASS_CQB", 
+											scriptMenuResponse "cqb";, 
+											;,
+											;, 
+											IS_ONLINE_GAME, FOCUS_CHECK( 10 ) )	
+
+		FRAME_CHOICE_BUTTON_FOCUS_VIS_EX(	6, "@MOD_CLASS_BUTCHER",
+											scriptMenuResponse "butcher";, 
+											;,
+											;, 
+											IS_ONLINE_GAME, FOCUS_CHECK( 1 ) )
+		
+		FRAME_CHOICE_BUTTON_FOCUS_VIS_EX(	7, "@MOD_CLASS_MARKSMAN",
+											scriptMenuResponse "marksman";, 
+											;,
+											;, 
+											IS_ONLINE_GAME, FOCUS_CHECK( 2 ) )
+		
+		FRAME_CHOICE_BUTTON_FOCUS_VIS_EX(	8, "@MOD_CLASS_DONATOR",
+											scriptMenuResponse "donator";, 
+											;,
+											;, 
+											(IS_ONLINE_GAME && IS_DONATOR), FOCUS_CHECK( 3 ) )
+
+		FRAME_CHOICE_BUTTON_FOCUS_VIS_EX(	9, "@MOD_CLASS_MVP",
+											scriptMenuResponse "mvp";, 
+											;,
+											;, 
+											(IS_ONLINE_GAME && IS_MVP), FOCUS_CHECK( 4 ) )
+	
+		FRAME_CHOICE_BUTTON_FOCUS_VIS_EX(	10, "@MOD_CLASS_DEVELOPER",
+											scriptMenuResponse "developer";, 
+											;,
+											;, 
+											(IS_ONLINE_GAME && IS_DEVELOPER), FOCUS_CHECK( 5 ) )
+
+		// Back button
+		NEW_FRAME_BACK_BUTTON_ACTION( 640, 480, ON_ESC )
+	}
+}

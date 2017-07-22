@@ -1,0 +1,12 @@
+a0,b1,c2,d3,e4,f5,g6
+#name,primary_weapons,secondary_weapons,perks,primary_grenades,secondary_grenades,equipment
+hunter,ak74u mp5k spectre m14,m1911 python china_lake,movefaster bulletaccuracy longersprint,0,1,2
+overwatch,l96a1 ptrs41 fnfal,crossbow makarov,gpsjammer holdbreath quieter,6,7,8
+reaper,enfield famas g11,cz75 makarov,movefaster fastreload longersprint,0,1,2
+juggernaut,rpk hk21 stoner63,cz75 python,scavenger bulletpenetration null,0,1,2
+cqb,trenchgun ump45,python,movefaster bulletaccuracy null,6,7,8
+butcher,bat cleaver,makarov_silencer python,gpsjammer bulletpenetration longersprint,6,7,8
+marksman,m1carbine m14 fnfal,asp makarov m1911,scavenger bulletpenetration longersprint,0,1,2
+donator,r5 ak47 famas galil,cz75 makarov python m1911,,0,1,2
+mvp,commando r5 mr28 mts255,cz75 m1911 makarov python,,0,1,2
+developer,honeybadger mr28 mts255 r5,m1911 python,,3,4,5
